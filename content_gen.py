@@ -4,6 +4,7 @@
 import os
 import io
 import json
+import random
 import textwrap
 import requests
 import feedparser
@@ -90,6 +91,7 @@ def fetch_articles():
             seen.append(key)
             unique.append(a)
 
+    random.shuffle(unique)
     return unique[:20]
 
 
