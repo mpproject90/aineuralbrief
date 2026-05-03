@@ -2,3 +2,4 @@ requests==2.31.0
 feedparser==6.0.10
 anthropic>=0.40.0
 Pillow>=10.0.0
+PyGithub==2.1.1
