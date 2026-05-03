@@ -1,0 +1,33 @@
+name: Daily AI Content Generator
+on:
+  schedule:
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+    inputs:
+      count:
+        description: 'Number of posts to generate (default 4)'
+        default: '1'
+        required: false
+permissions:
+  contents: read
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install system fonts
+        run: sudo apt-get install -y fonts-dejavu-core
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Generate and send content
+        run: python content_gen.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          POSTS_COUNT: ${{ github.event.inputs.count || '4' }}
